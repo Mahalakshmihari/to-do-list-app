@@ -31,6 +31,8 @@ String image=new String(Base64.getEncoder().encode(u.getUserimage()));
 <h2>Email : <%=u.getUseremail() %></h2>
 <h2>Contact : <%=u.getUsercontact() %></h2></div>
 
+<a href="addtask.jsp">Add Task</a>
+
 
 </div>
 </body>
