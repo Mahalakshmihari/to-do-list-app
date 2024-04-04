@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import dao.Dao;
+import dto.Task;
 import dto.User;
 
 @WebServlet("/loginuser")
@@ -34,12 +36,14 @@ public class LoginUser extends HttpServlet {
 				if(u.getUserpassword().equals(password))
 				{
 					//login sucess
+					//create session and send the data
 					HttpSession session=req.getSession();
 					
 					session.setAttribute("user", u);
-//					byte[] b=u.getUserimage();
-//					String im=b.toString();
-//					req.setAttribute("user",u);
+					//get all the task related to the user id 
+					List<Task> tasks=dao.getAllTasksByUserId(u.getUserid()) ;
+					req.setAttribute("tasks", tasks);
+//					
 					req.getRequestDispatcher("home.jsp").include(req, resp);				 
 				}
 				else {
@@ -49,6 +53,7 @@ public class LoginUser extends HttpServlet {
 				}
 			}
 			else {
+				//email is wrong.
 				req.setAttribute("message", "Wrong email");
 				req.getRequestDispatcher("login.jsp").include(req, resp);
 

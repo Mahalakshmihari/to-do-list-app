@@ -7,8 +7,10 @@
 <title>Insert title here</title>
 <style>
         body{
-         
-            background-color: rgb(56, 81, 82);
+         	 background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrLvElhBQaTsAVnBGGrdfbmkwoEjL_UkZRBw&s");
+             background-color: bisque;
+             background-repeat: no-repeat;
+             background-size: 100%;
         }
 
         form{
@@ -33,6 +35,7 @@
             padding-left: 30px;
             padding-right: 30px;
             padding-bottom: 30px
+            box-shadow: 0px 0px 20px orange;
            
         }
         </style>

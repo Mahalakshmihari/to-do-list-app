@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.Part;
 import javax.sql.rowset.serial.SerialBlob;
@@ -35,6 +37,8 @@ public class Dao {
 		pst.setBlob(6, new SerialBlob(user.getUserimage()));
 		int res=pst.executeUpdate();
 		return res;
+		
+		
 		}
 	 
 	 
@@ -79,5 +83,32 @@ public class Dao {
 		 int res=pst.executeUpdate();
 		return res;
 		 
+	 }
+	 
+	 //Displaying the task
+	 public List<Task> getAllTasksByUserId(int userId) throws ClassNotFoundException, SQLException{
+		 Connection con=getConnection();
+		 PreparedStatement pst=con.prepareStatement("select * from task where userid=?");
+		 pst.setInt(1, userId);
+		 
+		 ResultSet rs=pst.executeQuery();
+		 List<Task> tasks= new ArrayList<Task>();
+		 while(rs.next()) {
+		
+			 Task task=new Task(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getString(4) , rs.getString(5), rs.getString(6));
+			 tasks.add(task);
+		 }
+		 
+		 return tasks;
+	 }
+	 //Deleting the task
+	 public int deleteTaskByTaskId(int taskId) throws ClassNotFoundException, SQLException
+	 {
+		 Connection con=getConnection();
+		 PreparedStatement pst=con.prepareStatement("delete from task where taskid=? ");
+		 pst.setInt(1, taskId);
+		 
+		 int res= pst.executeUpdate();
+		 return res;
 	 }
 }

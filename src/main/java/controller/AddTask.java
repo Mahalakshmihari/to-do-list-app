@@ -3,11 +3,13 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.Dao;
 import dto.Task;
@@ -32,7 +34,13 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 	try {
 		int res=dao.createTask(task);
 		if(res>0) {
-			resp.getWriter().print("task has been created");
+			HttpSession session=req.getSession();
+			User u=(User)session.getAttribute("user");
+			
+			req.setAttribute("tasks", dao.getAllTasksByUserId(u.getUserid()));
+			
+			RequestDispatcher rd=req.getRequestDispatcher("home.jsp");
+			rd.include(req, resp);
 		}
 		else {
 			resp.getWriter().println("failed");
